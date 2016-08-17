@@ -23,10 +23,10 @@ app.set('views', path.join(__dirname, '../views'))
 
 // DATABASE
 
-const mc = require('mongodb').MongoClient
-const url = 'mongodb://localhost:27017/remind'
-const agenda = new Agenda({db: {address: url}})
-app.use('/agendash', Agendash(agenda));
+// const mc = require('mongodb').MongoClient
+// const url = 'mongodb://localhost:27017/remind'
+// const agenda = new Agenda({db: {address: url}})
+// app.use('/agendash', Agendash(agenda));
 
 
 /* ROUTING */
@@ -81,41 +81,41 @@ app.post('/send', function(request, response) {
           // console.log(reminder)
           // console.log(datetime)
 
-          mc.connect(url, function(err, db) {
-            assert.equal(null, err);
-            console.log("Connected correctly to server.");
-
-            // define reminder
-            agenda.define('remind', function(job, done) {
-              var msg = job.attrs.data.message
-              console.log(msg)
-              console.log("sending to " + job.attrs.data.num)
-              rp({
-                method: 'POST',
-                uri: 'http://textbelt.com/canada',
-                body: {
-                  number: job.attrs.data.num,
-                  message: msg
-                },
-                json: true
-              })
-                .then(function (parsedBody) {
-                  console.log(parsedBody)
-                  console.log("successfully sent to textbelt api")
-                })
-              done()
-            })
+          // mc.connect(url, function(err, db) {
+          //   assert.equal(null, err);
+          //   console.log("Connected correctly to server.");
+          //
+          //   // define reminder
+          //   agenda.define('remind', function(job, done) {
+          //     var msg = job.attrs.data.message
+          //     console.log(msg)
+          //     console.log("sending to " + job.attrs.data.num)
+          //     rp({
+          //       method: 'POST',
+          //       uri: 'http://textbelt.com/canada',
+          //       body: {
+          //         number: job.attrs.data.num,
+          //         message: msg
+          //       },
+          //       json: true
+          //     })
+          //       .then(function (parsedBody) {
+          //         console.log(parsedBody)
+          //         console.log("successfully sent to textbelt api")
+          //       })
+          //     done()
+          //   })
 
             // create reminder
             // agenda.on('ready', function() {
               console.log(new Date(datetime))
-              agenda.schedule(new Date(datetime), 'remind',
-                { message: "Remember to " + reminder + "!",
-                  num: request.body.number });
-              agenda.start()
-            // })
-            db.close()
-          });
+          //     agenda.schedule(new Date(datetime), 'remind',
+          //       { message: "Remember to " + reminder + "!",
+          //         num: request.body.number });
+          //     agenda.start()
+          //   // })
+          //   db.close()
+          // });
 
           // send reply
           response.json({
