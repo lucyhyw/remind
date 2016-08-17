@@ -9,6 +9,7 @@
   },
   "author": "",
   "license": "ISC",
+  "engines":{"node": "6.2.2"},
   "dependencies": {
     "agenda": "^0.9.0",
     "agenda-ui": "0.0.7",
